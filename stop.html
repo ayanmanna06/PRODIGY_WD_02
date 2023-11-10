@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Stopwatch</title>
+    <style>
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+        .container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+        }
+        .timer {
+            font-size: 4rem;
+            color: #333;
+        }
+        .buttons {
+            display: flex;
+            margin-top: 20px;
+        }
+        .buttons button {
+            width: 100px;
+            height: 50px;
+            border: none;
+            outline: none;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #fff;
+            margin: 0 10px;
+        }
+        .buttons button.start {
+            background-color: #4caf50;
+        }
+        .buttons button.stop {
+            background-color: #f44336;
+        }
+        .buttons button.reset {
+            background-color: #2196f3;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="timer">00:00:00</div>
+        <div class="buttons">
+            <button class="start">Start</button>
+            <button class="stop">Stop</button>
+            <button class="reset">Reset</button>
+        </div>
+    </div>
+    <script>
+        // Get the timer element
+        const timer = document.querySelector(".timer");
+        // Get the buttons
+        const startButton = document.querySelector(".start");
+        const stopButton = document.querySelector(".stop");
+        const resetButton = document.querySelector(".reset");
+        // Declare variables for the timer
+        let hours = 0;
+        let minutes = 0;
+        let seconds = 0;
+        let interval = null;
+        let isRunning = false;
+        // Define a function to format the time
+        function formatTime(num) {
+            return num < 10 ? "0" + num : num;
+        }
+            // Define a function to update the timer
+        function updateTimer() {
+            // Increment the seconds
+            seconds++;
+            // If seconds reach 60, increment the minutes and reset the seconds
+            if (seconds === 60) {
+                minutes++;
+                seconds = 0;
+            }
+    // If minutes reach 60, increment the hours and reset the minutes
+            if (minutes === 60) {
+                hours++;
+                minutes = 0;
+            }
+            // Display the formatted time
+            timer.textContent = `${formatTime(hours)}:${formatTime(minutes)}:${formatTime(seconds)}`;
+        }
+     // Define a function to start the timer
+        function startTimer() {
+            // If the timer is not running, start the interval and set the isRunning flag to true
+            if (!isRunning) {
+                interval = setInterval(updateTimer, 1000);
+                isRunning = true;
+            }
+        }
+        // Define a function to stop the timer
+        function stopTimer() {
+            // If the timer is running, clear the interval and set the isRunning flag to false
+            if (isRunning) {
+                clearInterval(interval);
+                isRunning = false;
+            }
+        }
+        // Define a function to reset the timer
+        function resetTimer() {
+            // Stop the timer
+            stopTimer();
+            // Reset the variables
+            hours = 0;
+            minutes = 0;
+            seconds = 0;
+            // Display the initial time
+            timer.textContent = "00:00:00";
+        }
+
+        // Add event listeners to the buttons
+        startButton.addEventListener("click", startTimer);
+        stopButton.addEventListener("click", stopTimer);
+        resetButton.addEventListener("click", resetTimer);
+    </script>
+</body>
+</html>
